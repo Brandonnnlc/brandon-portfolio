@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import { X, Copy, Check, Share2, Briefcase } from "lucide-react";
 
-const PORTFOLIO_URL = "https://brandon-portfolio.vercel.app";
+const PORTFOLIO_URL = "https://brandon-lim-portfolio.vercel.app";
 
 export default function ShareModal() {
     const [open, setOpen] = useState(false);
@@ -143,8 +143,8 @@ export default function ShareModal() {
                                         <button
                                             onClick={handleCopy}
                                             className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-300 ${copied
-                                                    ? "bg-primary/20 text-primary"
-                                                    : "bg-surface border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
+                                                ? "bg-primary/20 text-primary"
+                                                : "bg-surface border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/30"
                                                 }`}
                                         >
                                             {copied ? (
