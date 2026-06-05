@@ -3,19 +3,17 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Play } from "lucide-react";
 import { projects } from "@/data/projects";
-import { getIcon } from "@/lib/icons";
 
 const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 30 },
     visible: (i: number) => ({
         opacity: 1,
         y: 0,
         transition: {
-            delay: i * 0.15,
-            duration: 0.6,
+            delay: i * 0.1,
+            duration: 0.5,
             ease: "easeOut" as const,
         },
     }),
@@ -23,33 +21,21 @@ const cardVariants = {
 
 export default function Projects() {
     return (
-        <section
-            id="projects"
-            className="relative py-24 md:py-36 overflow-hidden"
-        >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
-            <div className="mx-auto max-w-7xl px-6">
+        <section id="projects" className="relative py-12 md:py-16">
+            <div className="mx-auto max-w-7xl px-4 md:px-8">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6 }}
-                    className="flex flex-col gap-4 items-start mb-16"
+                    viewport={{ once: true }}
+                    className="flex flex-col mb-8"
                 >
-                    <Badge variant="default">Projects</Badge>
-                    <h2 className="font-[family-name:var(--font-space-grotesk)] text-3xl md:text-5xl tracking-tighter font-bold">
+                    <h2 className="text-2xl font-bold tracking-tight text-white hover:underline cursor-pointer w-fit">
                         Selected Works
                     </h2>
-                    <p className="text-lg max-w-xl leading-relaxed text-muted-foreground">
-                        Real projects spanning UX design, frontend development, branding,
-                        and creative work.
-                    </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                     {projects.map((project, i) => {
-                        const Icon = getIcon(project.iconName);
                         return (
                             <motion.div
                                 key={i}
@@ -58,53 +44,38 @@ export default function Projects() {
                                 whileInView="visible"
                                 viewport={{ once: true, amount: 0.2 }}
                                 variants={cardVariants}
-                                className={project.featured ? "lg:col-span-2" : ""}
                             >
                                 <Link
                                     href={`/projects/${project.slug}`}
-                                    className={`project-card group relative bg-surface border border-border/50 rounded-2xl p-6 flex flex-col justify-between cursor-pointer block h-full hover:shadow-[0_20px_60px_rgba(34,197,94,0.1)] hover:border-primary/30 hover:-translate-y-2 transition-all duration-300 ${project.featured ? "min-h-[280px]" : "aspect-square"
-                                        }`}
+                                    className="group block bg-[#181818] hover:bg-[#282828] transition-colors duration-300 p-4 rounded-md h-full"
                                 >
-                                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-br from-primary/5 via-transparent to-primary/5 z-0" />
-
-                                    {project.images && project.images.length > 0 && (
-                                        <div className="absolute inset-0 z-0 opacity-40 group-hover:opacity-70 transition-opacity duration-500 rounded-2xl overflow-hidden">
+                                    <div className="relative aspect-square w-full mb-4 shadow-xl overflow-hidden rounded-md bg-[#282828]">
+                                        {project.images && project.images.length > 0 ? (
                                             <Image
                                                 src={project.images[0].src}
                                                 alt={project.images[0].alt}
                                                 fill
-                                                className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                                                className="object-cover"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-                                        </div>
-                                    )}
-
-                                    <div className="flex items-start justify-between relative z-10">
-                                        <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center group-hover:scale-110 transition-transform">
-                                            <Icon className="w-5 h-5 text-primary" />
-                                        </div>
-                                        <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    </div>
-
-                                    <div className="relative z-10 mt-auto">
-                                        <h3 className="font-[family-name:var(--font-space-grotesk)] text-xl font-semibold tracking-tight mb-2 text-foreground group-hover:text-primary transition-colors duration-300">
-                                            {project.title}
-                                        </h3>
-                                        <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                                            {project.description}
-                                        </p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {project.tags.map((tag, j) => (
-                                                <Badge
-                                                    key={j}
-                                                    variant="secondary"
-                                                    className="text-xs bg-muted text-muted-foreground border-border/50"
-                                                >
-                                                    {tag}
-                                                </Badge>
-                                            ))}
+                                        ) : (
+                                            <div className="absolute inset-0 bg-gradient-to-br from-[#2a2a2a] to-[#121212] flex items-center justify-center text-white/20 font-bold text-4xl">
+                                                {project.title.substring(0, 1)}
+                                            </div>
+                                        )}
+                                        
+                                        {/* Spotify Green Play Button */}
+                                        <div className="absolute bottom-2 right-2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10 shadow-xl shadow-black/50 bg-primary w-12 h-12 rounded-full flex items-center justify-center hover:scale-105 hover:bg-[#1ed760]"
+                                             onClick={(e) => { e.preventDefault(); console.log("Play " + project.title); }}>
+                                            <Play className="w-6 h-6 text-black fill-current ml-1" />
                                         </div>
                                     </div>
+
+                                    <h3 className="font-bold text-white text-base truncate mb-1">
+                                        {project.title}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed font-medium">
+                                        {project.description}
+                                    </p>
                                 </Link>
                             </motion.div>
                         );

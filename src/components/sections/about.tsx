@@ -1,111 +1,90 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import Image from "next/image";
+import FloatingLines from "@/components/ui/floating-lines";
 
 export default function About() {
     return (
-        <section
-            id="about"
-            className="relative py-24 md:py-36 overflow-hidden"
-        >
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <section id="about" className="relative py-12 md:py-16">
+            <div className="mx-auto max-w-7xl px-4 md:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col mb-8"
+                >
+                    <h2 className="text-2xl font-bold tracking-tight text-white hover:underline cursor-pointer w-fit">
+                        About
+                    </h2>
+                </motion.div>
 
-            <div className="mx-auto max-w-7xl px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    {/* Text column */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                    >
-                        <div className="flex items-center gap-2 mb-6">
-                            <Sparkles className="w-5 h-5 text-primary" />
-                            <span className="text-sm font-medium text-primary tracking-widest uppercase">
-                                About Me
-                            </span>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="relative rounded-xl overflow-hidden bg-[#181818] group cursor-pointer hover:scale-[1.01] transition-transform duration-300"
+                >
+                    {/* Background image area with gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-[#121212]/75 to-transparent z-10" />
+                    
+                    {/* WebGL Floating Waves background */}
+                    <div className="absolute inset-0 z-0 opacity-70 mix-blend-screen pointer-events-none">
+                        <FloatingLines 
+                            enabledWaves={["top","middle","bottom"]}
+                            lineCount={8}
+                            lineDistance={8}
+                            bendRadius={8}
+                            bendStrength={-2}
+                            interactive
+                            parallax={true}
+                            animationSpeed={0.8}
+                            linesGradient={["#1DB954", "#1ed760", "#121212"]}
+                        />
+                    </div>
+
+                    <div className="relative z-20 p-8 md:p-12 flex flex-col md:flex-row gap-12 items-end min-h-[400px]">
+                        <div className="flex-1 space-y-6">
+                            <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tighter group-hover:underline">
+                                1,204,593 Monthly Listeners
+                            </h3>
+                            <div className="space-y-4 text-white/80 leading-relaxed font-medium">
+                                <p>
+                                    I'm Brandon Lim Jia Cher — a UI/UX Designer and Frontend
+                                    Developer currently pursuing my IT Diploma at Singapore
+                                    Polytechnic.
+                                </p>
+                                <p>
+                                    Through my internship at UBTS and current role at NATT
+                                    Studio, I've honed my skills in user research, wireframing,
+                                    prototyping, and delivering real design solutions. I founded Flow Studio to push
+                                    my craft further and take on freelance projects.
+                                </p>
+                                <p>
+                                    I'm also a content creator who grew to 1M+ Pinterest views
+                                    and 5K+ Instagram followers through AI-generated content and
+                                    strategic automation.
+                                </p>
+                            </div>
                         </div>
 
-                        <h2 className="font-[family-name:var(--font-space-grotesk)] text-3xl md:text-5xl font-bold tracking-tight mb-6">
-                            Discover the
-                            <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-                                professional journey
-                            </span>
-                            <br />
-                            of a designer.
-                        </h2>
-
-                        <div className="space-y-4 text-muted-foreground leading-relaxed">
-                            <p>
-                                I&apos;m Brandon Lim Jia Cher — a UI/UX Designer and Frontend
-                                Developer currently pursuing my IT Diploma at Singapore
-                                Polytechnic. My journey into design started with a curiosity for
-                                how people interact with technology, which led me to discover
-                                the world of user experience.
-                            </p>
-                            <p>
-                                Through my internship at UBTS and current role at NATT
-                                Studio, I&apos;ve honed my skills in user research, wireframing,
-                                prototyping, and delivering real design solutions for actual
-                                clients. I founded Flow Studio — my own design agency — to push
-                                my craft further and take on freelance projects.
-                            </p>
-                            <p>
-                                I&apos;m also a content creator who grew to 1M+ Pinterest views
-                                and 5K+ Instagram followers through AI-generated content and
-                                strategic automation. I believe great design sits at the
-                                intersection of empathy, aesthetics, and technical execution.
-                            </p>
+                        <div className="flex flex-col gap-4">
+                            <div className="bg-black/40 backdrop-blur-md rounded-full px-6 py-4 flex items-center justify-between gap-8 hover:bg-black/60 transition-colors">
+                                <div className="flex flex-col">
+                                    <span className="text-white font-bold text-xl">6M+</span>
+                                    <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Pinterest Views</span>
+                                </div>
+                            </div>
+                            <div className="bg-black/40 backdrop-blur-md rounded-full px-6 py-4 flex items-center justify-between gap-8 hover:bg-black/60 transition-colors">
+                                <div className="flex flex-col">
+                                    <span className="text-primary font-bold text-xl">5K+</span>
+                                    <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">IG Followers</span>
+                                </div>
+                            </div>
                         </div>
-                    </motion.div>
-
-                    {/* Visual column */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                        className="relative"
-                    >
-                        <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-surface border border-border/50">
-                            <Image
-                                src="/images/brandon-profile.jpg"
-                                alt="Brandon Lim Jia Cher"
-                                fill
-                                className="object-cover object-top"
-                                priority
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                            <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-primary/40 rounded-tl-lg" />
-                            <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-primary/40 rounded-br-lg" />
-                        </div>
-
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.5, type: "spring" }}
-                            className="absolute -top-4 -right-4 bg-surface border border-border/50 rounded-xl px-4 py-3 shadow-lg shadow-black/20"
-                        >
-                            <p className="text-2xl font-bold text-foreground">6M+</p>
-                            <p className="text-xs text-muted-foreground">Pinterest Views</p>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: 0.7, type: "spring" }}
-                            className="absolute -bottom-4 -left-4 bg-surface border border-border/50 rounded-xl px-4 py-3 shadow-lg shadow-black/20"
-                        >
-                            <p className="text-2xl font-bold text-primary">3K+</p>
-                            <p className="text-xs text-muted-foreground">IG Followers</p>
-                        </motion.div>
-                    </motion.div>
-                </div>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

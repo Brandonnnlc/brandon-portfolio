@@ -6,6 +6,7 @@ import {
     Palette,
     PenTool,
     Layers,
+    Calendar,
     type LucideIcon,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ const iconMap: Record<string, LucideIcon> = {
     Palette,
     PenTool,
     Layers,
+    Calendar,
 };
 
 export function getIcon(name: string): LucideIcon {

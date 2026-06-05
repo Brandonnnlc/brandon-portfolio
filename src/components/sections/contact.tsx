@@ -1,105 +1,101 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { Mail, MapPin, Send } from "lucide-react";
-
-const containerVariants = {
-    hidden: {},
-    visible: {
-        transition: {
-            staggerChildren: 0.12,
-        },
-    },
-};
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: "easeOut" as const },
-    },
-};
+import { Mail, MapPin, Send, ExternalLink } from "lucide-react";
 
 export default function Contact() {
     return (
-        <section
-            id="contact"
-            className="relative py-24 md:py-36 overflow-hidden"
-        >
-            {/* Section divider */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
-            {/* Background glow */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-10 blur-[120px] pointer-events-none bg-gradient-to-t from-primary/40 to-transparent" />
-
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                variants={containerVariants}
-                className="mx-auto max-w-4xl px-6 text-center"
-            >
-                {/* Large heading */}
-                <motion.h2
-                    variants={itemVariants}
-                    className="font-[family-name:var(--font-space-grotesk)] text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-tight"
-                >
-                    LET&apos;S{" "}
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-                        ✦
-                    </span>{" "}
-                    CREATE
-                    <br />
-                    GREAT THINGS.
-                </motion.h2>
-
-                <motion.p
-                    variants={itemVariants}
-                    className="text-muted-foreground text-lg md:text-xl max-w-xl mx-auto mt-6 leading-relaxed"
-                >
-                    I&apos;m always excited to connect with new people. Whether it&apos;s
-                    about a project idea, a collaboration, or just to say hello — don&apos;t
-                    hesitate to reach out.
-                </motion.p>
-
-                {/* CTA Button */}
-                <motion.div variants={itemVariants} className="mt-10 flex justify-center">
-                    <InteractiveHoverButton
-                        text="Say Hello"
-                        className="w-40 text-foreground text-base"
-                        onClick={() =>
-                            window.open("mailto:blc33833@gmail.com", "_blank")
-                        }
-                    />
-                </motion.div>
-
-                {/* Info cards */}
+        <section id="contact" className="relative py-12 md:py-16 pb-32">
+            <div className="mx-auto max-w-7xl px-4 md:px-8">
                 <motion.div
-                    variants={itemVariants}
-                    className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col mb-12"
                 >
-                    <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-surface border border-border/50 hover:border-primary/30 transition-colors duration-300">
-                        <Mail className="w-6 h-6 text-primary" />
-                        <span className="text-sm text-muted-foreground">
-                            blc33833@gmail.com
-                        </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-surface border border-border/50 hover:border-primary/30 transition-colors duration-300">
-                        <MapPin className="w-6 h-6 text-primary" />
-                        <span className="text-sm text-muted-foreground">
-                            Singapore
-                        </span>
-                    </div>
-                    <div className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-surface border border-border/50 hover:border-primary/30 transition-colors duration-300">
-                        <Send className="w-6 h-6 text-primary" />
-                        <span className="text-sm text-muted-foreground">
-                            Open to opportunities
-                        </span>
-                    </div>
+                    <h2 className="text-2xl font-bold tracking-tight text-white hover:underline cursor-pointer w-fit mb-2">
+                        Get In Touch
+                    </h2>
+                    <p className="text-muted-foreground text-sm font-medium">
+                        Open to new opportunities and collaborations.
+                    </p>
                 </motion.div>
-            </motion.div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Big CTA */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-gradient-to-br from-[#2a2a2a] to-[#121212] p-8 md:p-12 rounded-xl flex flex-col justify-between min-h-[300px] group cursor-pointer hover:scale-[1.02] transition-transform duration-300"
+                        onClick={() => window.open("mailto:blc33833@gmail.com", "_blank")}
+                    >
+                        <div>
+                            <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4 group-hover:text-primary transition-colors">
+                                Let's Work<br/>Together.
+                            </h3>
+                        </div>
+                        <div className="flex items-center justify-between mt-8">
+                            <span className="text-lg font-bold text-white">blc33833@gmail.com</span>
+                            <div className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center group-hover:bg-primary transition-colors">
+                                <ExternalLink className="w-5 h-5" />
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Smaller Info Cards */}
+                    <div className="flex flex-col gap-4">
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                            className="bg-[#181818] hover:bg-[#282828] p-6 rounded-xl flex items-center gap-6 transition-colors"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-[#282828] flex items-center justify-center flex-shrink-0">
+                                <MapPin className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                                <h4 className="text-white font-bold text-lg">Location</h4>
+                                <p className="text-muted-foreground text-sm font-medium">Singapore</p>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="bg-[#181818] hover:bg-[#282828] p-6 rounded-xl flex items-center gap-6 transition-colors"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-[#282828] flex items-center justify-center flex-shrink-0">
+                                <Send className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                                <h4 className="text-white font-bold text-lg">Status</h4>
+                                <p className="text-muted-foreground text-sm font-medium">Open to opportunities</p>
+                            </div>
+                        </motion.div>
+
+                         <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                            className="bg-[#181818] hover:bg-[#282828] p-6 rounded-xl flex items-center gap-6 transition-colors"
+                        >
+                            <div className="w-12 h-12 rounded-full bg-[#282828] flex items-center justify-center flex-shrink-0">
+                                <Mail className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                                <h4 className="text-white font-bold text-lg">Social</h4>
+                                <p className="text-muted-foreground text-sm font-medium">LinkedIn • Instagram • Pinterest</p>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>
         </section>
     );
 }

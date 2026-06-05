@@ -9,15 +9,17 @@ import FooterSection from "@/components/ui/footer";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+    <main className="relative w-full pb-24">
       <Navbar />
       <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Timeline />
-      <Contact />
-      <FooterSection />
+      <div className="px-4 md:px-8 bg-gradient-to-b from-[#1a1a1a] via-[#121212] to-[#121212] pt-8">
+        <About />
+        <Skills />
+        <Projects />
+        <Timeline />
+        <Contact />
+        <FooterSection />
+      </div>
     </main>
   );
 }

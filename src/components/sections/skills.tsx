@@ -1,418 +1,182 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import {
-    Figma,
-    Brush,
-    PenTool,
-    Code2,
-    GitBranch,
-    Search,
-    Users,
-    Layout,
-    TestTube2,
-    Route,
-    Sparkles,
-    BarChart3,
-    Share2,
-    FileText,
-    ChevronDown,
-} from "lucide-react";
+import React, { useMemo, useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Play, Pause, Clock3 } from "lucide-react";
 
-type ToolItem = {
+type SkillTrack = {
     name: string;
-    icon?: React.ReactNode;
-    level: "Primary" | "Secondary" | "Learning";
-    usedFor: string;
-    proof?: string[]; // projects / examples
+    category: string;
+    level: string;
+    experience: string; // fake duration like "3:45"
 };
-
-type Category = {
-    title: string;
-    pill: string;
-    pillClass: string;
-    className?: string; // bento sizing
-    items: ToolItem[];
-};
-
-function SpotlightCard({
-    className,
-    children,
-}: {
-    className?: string;
-    children: React.ReactNode;
-}) {
-    const ref = useRef<HTMLDivElement | null>(null);
-    const [pos, setPos] = useState({ x: 0, y: 0 });
-    const [hovered, setHovered] = useState(false);
-
-    return (
-        <div
-            ref={ref}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            onMouseMove={(e) => {
-                const r = ref.current?.getBoundingClientRect();
-                if (!r) return;
-                setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
-            }}
-            className={cn(
-                "relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]",
-                "transition-transform duration-300 will-change-transform hover:-translate-y-0.5",
-                className
-            )}
-        >
-            {/* spotlight */}
-            <div
-                aria-hidden="true"
-                className={cn(
-                    "pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300",
-                    hovered && "opacity-100"
-                )}
-                style={{
-                    background: `radial-gradient(500px circle at ${pos.x}px ${pos.y}px, rgba(255,255,255,0.10), transparent 45%)`,
-                }}
-            />
-            {/* inner glow border */}
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10"
-            />
-            <div className="relative z-10 w-full h-full flex flex-col">
-                {children}
-            </div>
-        </div>
-    );
-}
-
-function ToolRow({ item }: { item: ToolItem }) {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const levelTone =
-        item.level === "Primary"
-            ? "bg-emerald-500/15 text-emerald-200 border-emerald-500/20"
-            : item.level === "Secondary"
-                ? "bg-sky-500/15 text-sky-200 border-sky-500/20"
-                : "bg-amber-500/15 text-amber-200 border-amber-500/20";
-
-    return (
-        <div className="relative w-full">
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                aria-expanded={isOpen}
-                className={cn(
-                    "group flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2",
-                    "transition-all duration-200 hover:border-white/20 hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30",
-                    isOpen && "border-white/20 bg-white/[0.05]"
-                )}
-            >
-                <div className="flex items-center gap-3">
-                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/[0.04] ring-1 ring-white/10 transition group-hover:bg-white/[0.06]">
-                        {item.icon}
-                    </div>
-                    <div className="flex flex-col items-start gap-0.5 max-w-[120px] sm:max-w-[180px]">
-                        <div className="text-sm font-medium text-white/90 truncate w-full text-left">{item.name}</div>
-                        <div className="text-[11px] text-white/55 truncate w-full text-left">{item.usedFor}</div>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-3 shrink-0">
-                    <span
-                        className={cn(
-                            "rounded-full border px-2.5 py-1 text-[10px] sm:text-[11px] font-medium hidden sm:inline-block",
-                            levelTone
-                        )}
-                    >
-                        {item.level}
-                    </span>
-                    <ChevronDown className={cn("w-4 h-4 text-white/40 transition-transform duration-300", isOpen && "rotate-180")} />
-                </div>
-            </button>
-
-            <AnimatePresence initial={false}>
-                {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden w-full"
-                    >
-                        <div className="mt-2 text-left bg-white/[0.02] border border-white/5 rounded-xl p-3 sm:p-4 shadow-inner">
-                            <div className="flex items-center justify-between mb-2 sm:hidden">
-                                <span className="text-sm font-semibold text-white/90">{item.name}</span>
-                                <span className={cn("rounded-full border px-2 py-0.5 text-[10px] font-medium", levelTone)}>
-                                    {item.level}
-                                </span>
-                            </div>
-
-                            <p className="text-sm text-white/70 leading-relaxed">
-                                {item.usedFor}
-                            </p>
-
-                            {item.proof?.length ? (
-                                <div className="mt-4 pt-3 border-t border-white/10">
-                                    <div className="text-[11px] font-medium text-white/50 uppercase tracking-wider mb-2">Used In</div>
-                                    <ul className="space-y-1.5 min-w-0">
-                                        {item.proof.map((p) => (
-                                            <li key={p} className="flex items-start gap-2.5 text-sm text-white/75 relative">
-                                                <span className="shrink-0 h-1.5 w-1.5 rounded-full bg-white/30 mt-1.5" />
-                                                <span className="truncate max-w-[200px] sm:max-w-none">{p}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ) : null}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
-}
 
 export default function Skills() {
-    const categories: Category[] = useMemo(
-        () => [
-            {
-                title: "Design",
-                pill: "DESIGN",
-                pillClass: "bg-emerald-500/15 text-emerald-200 border-emerald-500/20",
-                className: "md:col-span-2", // bigger tile
-                items: [
-                    {
-                        name: "Figma",
-                        icon: <Figma className="h-4 w-4 text-white/80" />,
-                        level: "Primary",
-                        usedFor: "UI design, components, prototyping",
-                        proof: ["WMS dashboards & modals", "Mobile UI adaptation", "Design system library"],
-                    },
-                    {
-                        name: "Photoshop",
-                        icon: <Brush className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Visual edits, assets, quick mockups",
-                        proof: ["A4 layout adjustments", "Marketing visuals"],
-                    },
-                    {
-                        name: "Illustrator",
-                        icon: <PenTool className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Icons, vector assets",
-                        proof: ["UI icon set work", "Brand assets"],
-                    },
-                    {
-                        name: "Midjourney",
-                        icon: <Sparkles className="h-4 w-4 text-white/80" />,
-                        level: "Learning",
-                        usedFor: "Concept exploration & creative prompts",
-                    },
-                ],
-            },
-            {
-                title: "Development",
-                pill: "DEVELOPMENT",
-                pillClass: "bg-sky-500/15 text-sky-200 border-sky-500/20",
-                className: "md:col-span-2",
-                items: [
-                    {
-                        name: "HTML / CSS",
-                        icon: <Code2 className="h-4 w-4 text-white/80" />,
-                        level: "Primary",
-                        usedFor: "Layout, responsive UI, styling",
-                    },
-                    {
-                        name: "JavaScript",
-                        icon: <Code2 className="h-4 w-4 text-white/80" />,
-                        level: "Primary",
-                        usedFor: "Front-end logic, interactions",
-                    },
-                    {
-                        name: "React",
-                        icon: <Code2 className="h-4 w-4 text-white/80" />,
-                        level: "Primary",
-                        usedFor: "Component-driven UI builds",
-                    },
-                    {
-                        name: "Git",
-                        icon: <GitBranch className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Version control & collaboration",
-                    },
-                ],
-            },
-            {
-                title: "UX Methods",
-                pill: "UX METHODS",
-                pillClass: "bg-fuchsia-500/15 text-fuchsia-200 border-fuchsia-500/20",
-                className: "md:col-span-2",
-                items: [
-                    {
-                        name: "User Research",
-                        icon: <Users className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Clarify needs, constraints, and context",
-                    },
-                    {
-                        name: "Wireframing",
-                        icon: <Layout className="h-4 w-4 text-white/80" />,
-                        level: "Primary",
-                        usedFor: "Structure + information hierarchy",
-                    },
-                    {
-                        name: "Usability Testing",
-                        icon: <TestTube2 className="h-4 w-4 text-white/80" />,
-                        level: "Learning",
-                        usedFor: "Validate flows & reduce friction",
-                    },
-                    {
-                        name: "Journey Mapping",
-                        icon: <Route className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Understand end-to-end workflow steps",
-                    },
-                ],
-            },
-            {
-                title: "Other",
-                pill: "OTHER",
-                pillClass: "bg-amber-500/15 text-amber-200 border-amber-500/20",
-                className: "md:col-span-2",
-                items: [
-                    {
-                        name: "Content Strategy",
-                        icon: <FileText className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Clear UI copy and structured info",
-                    },
-                    {
-                        name: "Social Media",
-                        icon: <Share2 className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Creative direction & content iteration",
-                    },
-                    {
-                        name: "Prompt Engineering",
-                        icon: <Sparkles className="h-4 w-4 text-white/80" />,
-                        level: "Secondary",
-                        usedFor: "Better outputs + faster ideation",
-                    },
-                    {
-                        name: "Google Analytics",
-                        icon: <BarChart3 className="h-4 w-4 text-white/80" />,
-                        level: "Learning",
-                        usedFor: "Basic user behaviour insights",
-                    },
-                ],
-            },
-        ],
-        []
-    );
+    const [activeTrack, setActiveTrack] = useState<string | null>(null);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-    const certs = [
-        "Google UX Design",
-        "Google Digital Marketing",
-        "Generative AI Leader",
-        "AI Ethics & Governance (SCS)",
-    ];
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setActiveTrack((window as any).__currentPlayingTrack || null);
+            setIsPlaying((window as any).__currentIsPlaying || false);
+        }
+
+        const handleTrackChanged = (e: Event) => {
+            const customEvent = e as CustomEvent<{ name: string; isPlaying: boolean }>;
+            if (customEvent.detail) {
+                setActiveTrack(customEvent.detail.name);
+                setIsPlaying(customEvent.detail.isPlaying);
+            }
+        };
+
+        window.addEventListener('track-changed', handleTrackChanged);
+        return () => {
+            window.removeEventListener('track-changed', handleTrackChanged);
+        };
+    }, []);
+
+    const handlePlayTrack = (track: SkillTrack) => {
+        if (activeTrack === track.name) {
+            // Toggle playing state
+            const event = new CustomEvent('track-changed', {
+                detail: { name: track.name, isPlaying: !isPlaying }
+            });
+            window.dispatchEvent(event);
+        } else {
+            // Play new track
+            const event = new CustomEvent('play-track', {
+                detail: {
+                    name: track.name,
+                    subtext: track.category,
+                    duration: track.experience,
+                    image: "/images/brandon-profile.jpg"
+                }
+            });
+            window.dispatchEvent(event);
+        }
+    };
+
+    const tracks: SkillTrack[] = useMemo(() => [
+        { name: "Figma", category: "Design Tools", level: "Primary", experience: "4:20" },
+        { name: "React / Next.js", category: "Development", level: "Primary", experience: "3:15" },
+        { name: "UI/UX Design", category: "Core Skill", level: "Primary", experience: "5:00" },
+        { name: "Tailwind CSS", category: "Development", level: "Primary", experience: "2:45" },
+        { name: "User Research", category: "UX Methods", level: "Secondary", experience: "2:10" },
+        { name: "Adobe Photoshop", category: "Design Tools", level: "Secondary", experience: "1:50" },
+        { name: "GSAP Animations", category: "Development", level: "Secondary", experience: "1:30" },
+        { name: "Wireframing", category: "UX Methods", level: "Primary", experience: "3:40" },
+        { name: "Prompt Engineering", category: "Other", level: "Secondary", experience: "1:15" },
+        { name: "Midjourney", category: "Other", level: "Learning", experience: "0:45" },
+    ], []);
 
     return (
-        <section id="skills" className="relative py-24 md:py-36 overflow-hidden bg-background">
-            {/* Section divider */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+        <section id="skills" className="relative py-12 md:py-16">
+            {/* Inject CSS Equalizer Animation */}
+            <style jsx global>{`
+                @keyframes eq {
+                    0% { transform: scaleY(0.2); }
+                    100% { transform: scaleY(1.0); }
+                }
+                .eq-bar {
+                    transform-origin: bottom;
+                    animation: eq 0.6s ease-in-out infinite alternate;
+                }
+            `}</style>
 
-            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 relative z-10">
-                <div className="text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-white/70 shadow-sm"
-                    >
-                        <span className="inline-block h-2 w-2 rounded-full bg-emerald-400/70" />
-                        TOOLS & SKILLS
-                    </motion.div>
+            <div className="mx-auto max-w-7xl px-4 md:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="flex flex-col mb-8"
+                >
+                    <h2 className="text-2xl font-bold tracking-tight text-white hover:underline cursor-pointer w-fit">
+                        Top Skills
+                    </h2>
+                </motion.div>
 
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="mt-6 text-3xl font-[family-name:var(--font-space-grotesk)] font-bold tracking-tight text-white md:text-5xl"
-                    >
-                        What I Work With
-                    </motion.h2>
+                <div className="w-full">
+                    {/* Table Header */}
+                    <div className="flex items-center text-sm text-muted-foreground border-b border-white/10 pb-2 mb-4 px-4">
+                        <div className="w-8 md:w-12 text-center">#</div>
+                        <div className="flex-[2]">Title</div>
+                        <div className="hidden md:block flex-1">Category</div>
+                        <div className="hidden sm:block flex-1">Proficiency</div>
+                        <div className="w-16 flex justify-end pr-4"><Clock3 className="w-4 h-4" /></div>
+                    </div>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg"
-                    >
-                        A mix of design, development, and UX tools I use to build clear, usable products.
-                    </motion.p>
-                </div>
+                    {/* Tracks */}
+                    <div className="flex flex-col">
+                        {tracks.map((track, i) => {
+                            const isCurrent = activeTrack === track.name;
+                            const isCurrentlyPlaying = isCurrent && isPlaying;
 
-                <div className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-4">
-                    <AnimatePresence mode="popLayout">
-                        {categories.map((cat, idx) => (
-                            <motion.div
-                                key={cat.title}
-                                layout
-                                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                                transition={{ duration: 0.4, delay: idx * 0.05, ease: "easeOut" }}
-                                className={cn("md:col-span-2 w-full", cat.className)}
-                            >
-                                <SpotlightCard className="h-full flex flex-col">
-                                    <div className="flex items-center justify-between mb-5">
-                                        <div className="text-lg font-semibold text-white/90 font-[family-name:var(--font-space-grotesk)]">
-                                            {cat.title}
-                                        </div>
-                                        <span
-                                            className={cn(
-                                                "rounded-full border px-3 py-1 text-xs font-semibold tracking-wide",
-                                                cat.pillClass
+                            return (
+                                <motion.div
+                                    key={track.name}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                                    onClick={() => handlePlayTrack(track)}
+                                    className={`group flex items-center text-sm py-3 px-4 rounded-md hover:bg-white/10 transition-colors cursor-pointer ${
+                                        isCurrent ? "bg-white/5" : ""
+                                    }`}
+                                >
+                                    {/* Number / Play / Equalizer Column */}
+                                    <div className="w-8 md:w-12 text-center text-muted-foreground flex items-center justify-center">
+                                        {isCurrentlyPlaying ? (
+                                            /* Active Equalizer Graphic */
+                                            <div className="flex items-end gap-[2px] h-3.5 w-3.5 mb-[2px]">
+                                                <div className="w-[3px] h-3 bg-primary eq-bar" style={{ animationDelay: '0.1s' }} />
+                                                <div className="w-[3px] h-3.5 bg-primary eq-bar" style={{ animationDelay: '0.3s' }} />
+                                                <div className="w-[3px] h-2.5 bg-primary eq-bar" style={{ animationDelay: '0s' }} />
+                                            </div>
+                                        ) : isCurrent ? (
+                                            /* Active but Paused: show number in green, or play on hover */
+                                            <div className="group-hover:hidden text-primary font-medium">
+                                                {i + 1}
+                                            </div>
+                                        ) : (
+                                            /* Inactive: standard track number */
+                                            <span className="group-hover:hidden">{i + 1}</span>
+                                        )}
+                                        
+                                        {/* Play icon overlay on hover */}
+                                        <div className="hidden group-hover:block">
+                                            {isCurrentlyPlaying ? (
+                                                <Pause className="w-4 h-4 text-white fill-current" />
+                                            ) : (
+                                                <Play className="w-4 h-4 text-white fill-current" />
                                             )}
-                                        >
-                                            {cat.pill}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className={`flex-[2] font-semibold truncate pr-4 ${
+                                        isCurrent ? "text-primary" : "text-white"
+                                    }`}>
+                                        {track.name}
+                                    </div>
+                                    <div className="hidden md:block flex-1 text-muted-foreground truncate pr-4 group-hover:text-white transition-colors">
+                                        {track.category}
+                                    </div>
+                                    <div className="hidden sm:block flex-1 text-muted-foreground truncate pr-4">
+                                        <span className={`px-2 py-0.5 rounded text-xs border ${
+                                            track.level === 'Primary' ? 'border-primary/50 text-primary bg-primary/10' :
+                                            track.level === 'Secondary' ? 'border-blue-400/50 text-blue-400 bg-blue-400/10' :
+                                            'border-yellow-400/50 text-yellow-400 bg-yellow-400/10'
+                                        }`}>
+                                            {track.level}
                                         </span>
                                     </div>
-
-                                    <div className="space-y-3 flex-1">
-                                        <AnimatePresence mode="popLayout">
-                                            {cat.items.map((item) => (
-                                                <motion.div key={item.name} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                                                    <ToolRow item={item} />
-                                                </motion.div>
-                                            ))}
-                                        </AnimatePresence>
+                                    <div className={`w-16 text-right font-mono pr-2 ${
+                                        isCurrent ? "text-primary" : "text-muted-foreground"
+                                    }`}>
+                                        {track.experience}
                                     </div>
-                                </SpotlightCard>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
-
-                <div className="mt-20 text-center">
-                    <div className="text-sm font-semibold text-white/80 uppercase tracking-widest">Certifications</div>
-                    <div className="mt-6 flex flex-wrap justify-center gap-3">
-                        {certs.map((c, i) => (
-                            <motion.span
-                                key={c}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.4 + i * 0.1 }}
-                                className="rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 text-sm text-white/70 hover:border-white/30 hover:bg-white/[0.08] hover:text-white transition-all cursor-default shadow-sm"
-                            >
-                                {c}
-                            </motion.span>
-                        ))}
+                                </motion.div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>

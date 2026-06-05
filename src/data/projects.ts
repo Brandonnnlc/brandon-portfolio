@@ -19,6 +19,33 @@ export interface ProjectData {
 
 export const projects: ProjectData[] = [
     {
+        slug: "habit-horizon",
+        title: "Habit Horizon",
+        subtitle: "Habit-Building & Consistency Tracking Platform",
+        description:
+            "Habit Horizon is a habit-building platform designed to help Singaporeans stay consistent in their personal, academic, and professional goals.",
+        tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "ShadCN UI", "Vercel"],
+        iconName: "Calendar",
+        featured: true,
+        role: "Lead Creator & Full-Stack Developer",
+        duration: "4 Months",
+        problem:
+            "Inspired by the idea that small daily actions compound into meaningful results, Habit Horizon was built to support students, NS personnel, professionals, and lifelong learners who want to become better every day. Staying consistent with goals in a fast-paced environment requires visual clarity, streak reinforcement, and frictionless tracking interfaces.",
+        process: [
+            "Goal Definition & Habit Creation — Designed a simple, quick wizard for users to create and manage daily or weekly habits with custom targets.",
+            "Visual Grid Interface — Engineered a GitHub-style contribution grid and streak calendar, translating abstract consistency metrics into rewarding visual patterns.",
+            "Frictionless Onboarding — Implemented an interactive guest mode that allows visitors to explore grid interactions instantly without sign-up barriers.",
+            "Secure Auth Integration — Connected Google OAuth for a seamless transition from guest sessions to permanent cloud-saved profiles.",
+            "Responsive Development — Built a fluid layout designed to scale cleanly across mobile, tablet, and desktop monitors.",
+        ],
+        outcome:
+            "Successfully developed and launched Habit Horizon as a personal growth hub, achieving high visual satisfaction and a streamlined user journey for tracking daily consistency in Singapore.",
+        tools: ["Next.js", "React", "TypeScript", "Tailwind CSS", "ShadCN UI", "Vercel"],
+        images: [
+            { src: "/images/habit-horizon.png", alt: "Habit Horizon — Your life in Singapore one year from now simulation dashboard" },
+        ],
+    },
+    {
         slug: "chem-logistics-platform",
         title: "Chem Logistics Platform",
         subtitle: "UX Design · Internship Project @ UBTS",
