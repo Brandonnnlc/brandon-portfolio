@@ -1,6 +1,7 @@
 import { projects } from "@/data/projects";
 import ProjectDetailClient from "./project-detail-client";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 type PageProps = {
     params: Promise<{ slug: string }>;
@@ -38,9 +39,9 @@ export default async function ProjectPage({ params }: PageProps) {
             <main className="min-h-screen bg-background text-foreground flex items-center justify-center">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">Project Not Found</h1>
-                    <a href="/" className="text-primary hover:underline">
+                    <Link href="/" className="text-primary hover:underline">
                         ← Back to home
-                    </a>
+                    </Link>
                 </div>
             </main>
         );

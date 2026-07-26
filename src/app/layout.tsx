@@ -1,53 +1,58 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
+import ScrollDirector from "@/components/scroll-director";
 import "./globals.css";
-import Sidebar from "@/components/ui/sidebar";
-import NowPlayingBar from "@/components/ui/now-playing-bar";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
+  variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const geistMono = Geist_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Brandon | Portfolio",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+  ),
+  title: "Brandon Lim — Designer & Creative Developer",
   description:
-    "Personal portfolio showcasing projects, experience, and journey — built for university admissions.",
+    "Singapore-based UI/UX designer and frontend developer creating useful, expressive digital products.",
   openGraph: {
-    title: "Brandon | Portfolio",
+    title: "Brandon Lim — Designer & Creative Developer",
     description:
-      "Personal portfolio showcasing projects, experience, and journey.",
+      "Product design, frontend engineering and visual experiments from Singapore.",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Brandon Lim — Designer and Creative Developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Brandon Lim — Designer & Creative Developer",
+    description:
+      "Product design, frontend engineering and visual experiments from Singapore.",
+    images: ["/og.png"],
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-black text-white h-screen overflow-hidden flex flex-col select-none`}
-        suppressHydrationWarning
-      >
-        <div className="flex flex-1 overflow-hidden h-[calc(100vh-6rem)]">
-          <Sidebar />
-          <div id="main-scroll-area" className="flex-1 overflow-y-auto bg-gradient-to-b from-[#2a2a2a] to-[#121212] relative rounded-lg m-2 ml-0 md:ml-2">
-            <div id="content-wrapper" className="min-h-full pb-32">
-              {children}
-            </div>
-          </div>
-        </div>
-        <NowPlayingBar />
+    <html lang="en">
+      <body className={`${geist.variable} ${geistMono.variable}`}>
+        <ScrollDirector />
+        {children}
       </body>
     </html>
   );
