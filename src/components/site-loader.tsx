@@ -21,6 +21,7 @@ export default function SiteLoader() {
       const reducedTimer = window.setTimeout(() => {
         root.style.display = "none";
         documentRoot.classList.remove("is-loading");
+        window.dispatchEvent(new CustomEvent("loader:done"));
       }, 180);
       return () => {
         window.clearTimeout(reducedTimer);
@@ -37,7 +38,29 @@ export default function SiteLoader() {
       root.style.display = "none";
       root.setAttribute("aria-hidden", "true");
       documentRoot.classList.remove("is-loading");
+      try {
+        sessionStorage.setItem("bl-intro-seen", "1");
+      } catch {}
+      window.dispatchEvent(new CustomEvent("loader:done"));
     };
+
+    // Only play the full intro once per session; later visits get a quick reveal.
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem("bl-intro-seen") === "1";
+    } catch {}
+    if (seen) {
+      const quick = gsap.to(root, {
+        autoAlpha: 0,
+        duration: 0.35,
+        ease: "power2.out",
+        onComplete: release,
+      });
+      return () => {
+        quick.kill();
+        documentRoot.classList.remove("is-loading");
+      };
+    }
 
     const context = gsap.context(() => {
       const panels = gsap.utils.toArray<HTMLElement>(".loader-panel");
@@ -75,7 +98,7 @@ export default function SiteLoader() {
           progress,
           {
             value: 100,
-            duration: 2.15,
+            duration: 1.45,
             ease: "power1.inOut",
             onUpdate: () => {
               if (countRef.current) {
@@ -94,35 +117,35 @@ export default function SiteLoader() {
             duration: 1.25,
             ease: "sine.inOut",
           },
-          0.82
+          0.6
         )
         .to(
           ".loader-signal",
           {
             scaleX: 1,
-            duration: 0.48,
+            duration: 0.4,
             ease: "power4.inOut",
           },
-          1.34
+          0.95
         )
         .to(
           ".loader-signal",
           {
             xPercent: 112,
-            duration: 0.55,
+            duration: 0.45,
             ease: "power3.in",
           },
-          1.82
+          1.3
         )
         .to(
           ".loader-ui",
           {
             opacity: 0,
             y: -28,
-            duration: 0.34,
+            duration: 0.3,
             ease: "power3.in",
           },
-          2.08
+          1.45
         )
         .to(
           ".loader-ring",
@@ -130,20 +153,20 @@ export default function SiteLoader() {
             scale: 4.8,
             rotate: 82,
             opacity: 0,
-            duration: 0.72,
+            duration: 0.65,
             ease: "power3.in",
           },
-          2.08
+          1.45
         )
         .to(
           panels,
           {
             yPercent: -102,
-            stagger: 0.055,
-            duration: 0.78,
+            stagger: 0.05,
+            duration: 0.72,
             ease: "power4.inOut",
           },
-          2.24
+          1.58
         );
 
       skipRef.current = () => {

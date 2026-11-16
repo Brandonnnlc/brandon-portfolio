@@ -24,7 +24,7 @@ export async function generateMetadata({
         return { title: "Project Not Found | Brandon" };
     }
     return {
-        title: `${project.title} | Brandon`,
+        title: `${project.title} — Brandon Lim`,
         description: project.description,
     };
 }
@@ -56,6 +56,8 @@ export default async function ProjectPage({ params }: PageProps) {
             project={project}
             nextProject={nextProject}
             prevProject={prevProject}
+            position={projectIndex + 1}
+            total={projects.length}
         />
     );
 }

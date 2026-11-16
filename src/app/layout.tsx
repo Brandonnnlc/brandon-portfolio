@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import ScrollDirector from "@/components/scroll-director";
+import SmoothScroll from "@/components/smooth-scroll";
+import Cursor from "@/components/cursor";
+import { PageTransition } from "@/components/page-transition";
 import "./globals.css";
-
-const geist = Geist({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -50,9 +42,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${geist.variable} ${geistMono.variable}`}>
-        <ScrollDirector />
-        {children}
+      <body className={`${GeistSans.variable} ${GeistMono.variable}`}>
+        <SmoothScroll />
+        <Cursor />
+        <PageTransition>
+          <ScrollDirector />
+          {children}
+        </PageTransition>
       </body>
     </html>
   );
