@@ -326,10 +326,13 @@ export const projects: ProjectData[] = [
             "Performance — InstancedMesh for repeated geometry, reduced-motion and tab-visibility handling, and a seek() hook for frame-exact QA",
         ],
         outcome:
-            "A product page that explains a keyboard better than a spec sheet, runs at 60fps on a laptop GPU, and can be exported as a single self-contained HTML file for sharing.",
+            "A product page that explains a keyboard better than a spec sheet: four acts on one scroll, from hero to full teardown, running at 60fps on a laptop GPU. The whole site also exports as a single self-contained HTML file for sharing.",
         tools: ["Next.js", "TypeScript", "React Three Fiber", "drei", "GSAP", "esbuild"],
         images: [
-            { src: "/covers/azoth.png", alt: "AZOTH TKL 87 — exploded keyboard assembly poster" },
+            { src: "/images/azoth/hero.jpg", alt: "Hero — the assembled board under cool studio light, wave backlight running" },
+            { src: "/images/azoth/front.jpg", alt: "Act 1 — the camera drops to eye level: one billet, nine layers" },
+            { src: "/images/azoth/switches.jpg", alt: "Act 2 — keycaps lift away to show the gasket-mounted switch plate" },
+            { src: "/images/azoth/layers.jpg", alt: "Act 3 — full exploded section with labels pinned to each layer in 3D" },
         ],
     },
     {

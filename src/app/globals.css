@@ -1815,6 +1815,8 @@ footer {
 }
 
 .case-gallery figure { margin: 0; }
+/* Odd number of shots: lead with a full-width frame. */
+.case-gallery figure:first-child:nth-last-child(2n + 1) { grid-column: 1 / -1; }
 .case-gallery img { width: 100%; height: auto; }
 
 .case-gallery figcaption {
@@ -2262,13 +2264,15 @@ html.has-cursor button { cursor: none; }
 /* ------------------------------------------------------------------ */
 .case-page { padding-top: 72px; }
 
+/* Pinned to the very top edge so it never floats over content when the
+   header slides away on scroll. */
 .case-progress {
   position: fixed;
-  z-index: 61;
-  top: 71px;
+  z-index: 70;
+  top: 0;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   pointer-events: none;
 }
 
@@ -2587,7 +2591,6 @@ html.has-cursor button { cursor: none; }
 
 @media (max-width: 680px) {
   .case-page { padding-top: 64px; }
-  .case-progress { top: 63px; }
   .case-next-link { min-height: 60vh; }
   .case-next-arrow { display: none; }
 }
