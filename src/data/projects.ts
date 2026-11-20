@@ -364,7 +364,8 @@ export const projects: ProjectData[] = [
             "A product page that feels like a configurator, weighs less than a hero video, and proved out the procedural workflow later used on AZOTH.",
         tools: ["Three.js", "GLSL", "Vanilla JS", "HTML"],
         images: [
-            { src: "/covers/superlight.png", alt: "SUPERLIGHT — lattice mouse poster" },
+            { src: "/images/superlight/hero.jpg", alt: "Cover render — the lattice shell over a glowing core, rebuilt procedurally in Three.js" },
+            { src: "/images/superlight/top.jpg", alt: "Top view — honeycomb cells shrink toward the edges, solid nose with the button split" },
         ],
     },
     {
