@@ -16,7 +16,7 @@ const featuredSlugs = [
   "chem-logistics-platform",
   "superlight",
   "halyard",
-  "habit-horizon",
+  "backload-board",
 ];
 
 const featuredProjects = featuredSlugs

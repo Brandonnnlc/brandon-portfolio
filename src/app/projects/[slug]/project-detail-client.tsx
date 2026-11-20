@@ -68,17 +68,31 @@ export default function ProjectDetailClient({
         </div>
       </section>
 
-      {project.images?.[0] && (
-        <div className="case-cover">
-          <Image
-            src={project.images[0].src}
-            alt={project.images[0].alt}
-            fill
-            priority
-            sizes="100vw"
-          />
-        </div>
-      )}
+      {project.images?.[0] &&
+        (project.coverFit === "frame" ? (
+          <div className="case-cover case-cover--frame">
+            <div className="case-cover-shot">
+              <Image
+                src={project.images[0].src}
+                alt={project.images[0].alt}
+                width={1600}
+                height={1000}
+                priority
+                sizes="(max-width: 900px) 92vw, 1100px"
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="case-cover">
+            <Image
+              src={project.images[0].src}
+              alt={project.images[0].alt}
+              fill
+              priority
+              sizes="100vw"
+            />
+          </div>
+        ))}
 
       <div className="case-layout">
         <aside className="case-nav" aria-label="Chapters">

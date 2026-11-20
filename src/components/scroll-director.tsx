@@ -313,7 +313,13 @@ export default function ScrollDirector() {
           scrollTrigger: { trigger: ".case-hero", start: "top top", end: "bottom top", scrub: 0.7 },
         });
 
-        if ($(".case-cover img")) {
+        if ($(".case-cover--frame")) {
+          gsap.fromTo(
+            ".case-cover-shot",
+            { y: 80, scale: 0.92, rotateX: 8, transformPerspective: 1200 },
+            { y: 0, scale: 1, rotateX: 0, ease: "none", scrollTrigger: { trigger: ".case-cover", start: "top bottom", end: "center center", scrub: 0.6 } }
+          );
+        } else if ($(".case-cover img")) {
           gsap.fromTo(
             ".case-cover",
             { clipPath: "inset(0 3% 0 3% round 24px)" },

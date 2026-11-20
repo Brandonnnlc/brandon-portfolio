@@ -21,6 +21,9 @@ export interface ProjectData {
     kind?: "Product" | "3D / WebGL" | "Brand" | "UX" | "Tooling" | "Visual";
     /** Accent colour for cover frames and hover states */
     accent?: string;
+    /** "bleed" fills the cover edge to edge; "frame" shows the shot at its own
+     * proportions on a tinted stage (use for narrow UI screenshots). */
+    coverFit?: "bleed" | "frame";
 }
 
 export const projects: ProjectData[] = [
@@ -390,7 +393,9 @@ export const projects: ProjectData[] = [
             "First sections are live in development; the page is being used as a testbed for the motion system that now powers this portfolio.",
         tools: ["Next.js", "GSAP", "Three.js", "Codex", "Meshy"],
         images: [
-            { src: "/covers/halyard.png", alt: "HALYARD — blue and white landing page poster" },
+            { src: "/images/halyard/hero.jpg", alt: "Hero — the wordmark set behind a sailboat, sea moving underneath" },
+            { src: "/images/halyard/statement.jpg", alt: "Scroll-lit manifesto: words light up as you read, with inline icon pills" },
+            { src: "/images/halyard/passkey.jpg", alt: "Product walkthrough — a pinned phone with floating labels for each step" },
         ],
     },
     {
@@ -420,6 +425,7 @@ export const projects: ProjectData[] = [
         tools: ["Next.js", "GSAP", "Three.js", "Tailwind CSS"],
         images: [
             { src: "/covers/prism.png", alt: "Prism — metal card poster" },
+            { src: "/images/prism/finishes.jpg", alt: "Build dossier — the two locked finishes with their material specs" },
         ],
     },
     {
@@ -477,7 +483,8 @@ export const projects: ProjectData[] = [
             "A finished prelaunch page in a week of part-time direction — and a repeatable brief-to-build loop for future concepts.",
         tools: ["Codex", "Claude", "Next.js", "GSAP"],
         images: [
-            { src: "/covers/afterimage.png", alt: "AFTERIMAGE — glitch poster" },
+            { src: "/images/afterimage/hero.jpg", alt: "Hero — blackletter wordmark over a three-panel night shoot" },
+            { src: "/images/afterimage/break.jpg", alt: "Look section — tilted frame with reflective piping caught in the light" },
         ],
     },
     {
@@ -535,7 +542,97 @@ export const projects: ProjectData[] = [
             "Several concept sites, including AFTERIMAGE, shipped through the runner with only phone-based direction.",
         tools: ["Codex", "Claude", "Node.js", "Next.js"],
         images: [
-            { src: "/covers/agent-manager.png", alt: "Agent Manager — dashboard poster" },
+            { src: "/images/agent-manager/dashboard.jpg", alt: "Dashboard — what's waiting on me, last-run flags and every agent's latest output" },
+        ],
+    },
+    {
+        slug: "atlas-terminal",
+        coverFit: "frame",
+        year: "2026",
+        kind: "UX",
+        accent: "#2fd18b",
+        title: "ATLAS Terminal",
+        subtitle: "Portfolio and risk dashboard concept for a Hyperliquid trader",
+        description:
+            "A dark, Bloomberg-meets-Palantir trading terminal concept: portfolio value, P&L, open risk and margin at a glance, an equity curve, a live smart feed, and a risk check that warns you before a trade compounds correlated exposure.",
+        tags: ["Dashboard", "Data UI", "Fintech", "Concept"],
+        iconName: "LineChart",
+        featured: false,
+        role: "Product Designer",
+        duration: "Ongoing — 2026",
+        problem:
+            "Perp traders juggle exchange tabs, spreadsheets and Twitter to answer one question: how much risk am I actually carrying? ATLAS puts that answer on one screen, before the trade, not after the liquidation.",
+        process: [
+            "Hierarchy — Four numbers on top (value, P&L, open risk, margin) so the state of the account reads in a second",
+            "Positions — Dense, tabular figures with side and leverage as tags, colour reserved for P&L",
+            "Smart feed — A short live list of market and account events, ranked by relevance to open positions",
+            "Risk check — A pre-trade panel that shows exposure, liquidation price and correlation warnings before Place Trade",
+        ],
+        outcome:
+            "A terminal concept that reads like an instrument panel, and the design base for the ATLAS build in progress.",
+        tools: ["React", "TypeScript", "Charting", "Figma"],
+        images: [
+            { src: "/images/atlas/portfolio.jpg", alt: "ATLAS portfolio view — KPIs, equity curve, positions, smart feed and risk check" },
+        ],
+    },
+    {
+        slug: "backload-board",
+        coverFit: "frame",
+        year: "2026",
+        kind: "Product",
+        accent: "#f2b705",
+        title: "Backload Board",
+        subtitle: "Spare truck space marketplace for Singapore SME hauliers",
+        description:
+            "A prototype board where small hauliers post spare truck space and shippers book it: a schematic lane map of Singapore and JB, auto-matching between trucks and loads, and a booking tracker — built from years around depots and dispatch.",
+        tags: ["Logistics", "Marketplace", "Prototype", "Singapore"],
+        iconName: "Truck",
+        featured: false,
+        role: "Product Designer & Developer",
+        duration: "1 Weekend",
+        problem:
+            "Trucks in Singapore regularly run their return leg empty, while small shippers struggle to find capacity for part-loads. The big platforms ignore SME hauliers. Backload Board tests whether a dead-simple board could fill those empty kilometres.",
+        process: [
+            "Domain — Started from how dispatchers actually talk: lanes, pallet slots, vehicle types, pickup windows",
+            "Lane map — A schematic map of zones from Tuas to Changi and JB, so supply and demand read as lines, not rows",
+            "Matching — Trucks and loads are paired automatically on lane, day and capacity",
+            "Booking — A simple tracker for confirmed bookings and the empty driving saved",
+        ],
+        outcome:
+            "A working prototype to put in front of hauliers, with a clear next question: will they post spare space unprompted?",
+        tools: ["HTML", "JavaScript", "SVG"],
+        images: [
+            { src: "/images/backload/board.jpg", alt: "Backload Board — supply stats and the Singapore lane map with spare trucks and wanted loads" },
+        ],
+    },
+    {
+        slug: "chop-invoice",
+        coverFit: "frame",
+        year: "2026",
+        kind: "Product",
+        accent: "#ff4b55",
+        title: "Chop Invoice",
+        subtitle: "Point of sale and PayNow invoicing for hawker stalls",
+        description:
+            "A phone-first POS for hawker stalls: tap-to-order menu, split bills, PayNow QR invoices with a chop-stamp 'paid' moment, and a ledger with a takings chart and overdue chasing.",
+        tags: ["POS", "Payments", "SME", "Mobile-first"],
+        iconName: "Receipt",
+        featured: false,
+        role: "Product Designer & Developer",
+        duration: "1 Weekend",
+        problem:
+            "Many hawkers still take orders by memory and payment by QR sticker, with no record of what was sold or who still owes. The tools that exist are built for restaurants, not a one-person stall in the middle of a lunch rush.",
+        process: [
+            "Counter — Big tap targets and running totals so an order can be taken in seconds with one hand",
+            "Invoice — PayNow QR generated per order, with a chop-stamp animation when it is marked paid",
+            "Ledger — Daily takings chart and a list of unpaid tabs to chase",
+            "Setup — Stall name, menu and PayNow number editable in one place, with clear example data",
+        ],
+        outcome:
+            "A complete, local-first stall tool in a single page — and a small study in designing for speed under pressure.",
+        tools: ["HTML", "JavaScript", "PayNow QR"],
+        images: [
+            { src: "/images/chop/counter.jpg", alt: "Chop Invoice counter — menu grid, big total and the running order" },
         ],
     },
 ];

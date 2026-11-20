@@ -2353,6 +2353,30 @@ html.has-cursor button { cursor: none; }
   will-change: clip-path;
 }
 
+.case-cover--frame {
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(2.5rem, 7vw, 7rem) var(--gutter);
+  background:
+    radial-gradient(60% 80% at 50% 100%, color-mix(in srgb, var(--accent, var(--blue)) 38%, transparent), transparent 70%),
+    #121210;
+}
+
+.case-cover-shot {
+  width: min(100%, 1100px);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 16px;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+}
+
+.case-cover-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .case-layout {
   display: grid;
   grid-template-columns: 14rem minmax(0, 1fr);
